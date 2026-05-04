@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:student_manager/utils/app_colors.dart';
+
+import '../student/student_details.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -144,98 +148,103 @@ class _HomeScreenState extends State<HomeScreen> {
             physics: NeverScrollableScrollPhysics(),
             itemCount: 5,
             itemBuilder: (context, index) {
-              bool isPresent = index % 2 == 0; // demo condition
+              bool isPresent = index % 2 == 0;
 
-              return Container(
-                margin: EdgeInsets.only(bottom: 12),
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: AppColors.cardColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.08),
-                      blurRadius: 8,
-                      spreadRadius: 1,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+              return InkWell(
+                onTap: (){
+                  Get.to(StudentDetails());
+                },
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 12),
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: AppColors.cardColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 8,
+                        spreadRadius: 1,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
 
-                    /// LEFT SIDE (Student Info)
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 22,
-                          backgroundColor: AppColors.primary,
-                          child: Icon(Icons.person, color: Colors.white),
-                        ),
-                        SizedBox(width: 12),
+                      // LEFT SIDE (Student Info)
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 22,
+                            backgroundColor: AppColors.primary,
+                            child: Icon(Icons.person, color: Colors.white),
+                          ),
+                          SizedBox(width: 12),
 
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Demo Student",
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.secondary,
-                              ),
-                            ),
-                            SizedBox(height: 2),
-
-                            Text(
-                              "Roll No : 12",
-                              style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: AppColors.grey,
-                              ),
-                            ),
-                            SizedBox(height: 4),
-
-                            Row(
-                              children: [
-                                Icon(Icons.call,
-                                    color: AppColors.primary, size: 14),
-                                SizedBox(width: 4),
-                                Text(
-                                  "7211121353",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Demo Student",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.secondary,
                                 ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                              ),
+                              SizedBox(height: 2),
 
-                    /// RIGHT SIDE (Status Badge)
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: isPresent
-                            ? Colors.green.withOpacity(0.1)
-                            : Colors.red.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(20),
+                              Text(
+                                "Roll No : 12",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  color: AppColors.grey,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+
+                              Row(
+                                children: [
+                                  Icon(Icons.call,
+                                      color: AppColors.primary, size: 14),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    "7211121353",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      child: Text(
-                        isPresent ? "Present" : "Absent",
-                        style: GoogleFonts.poppins(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: isPresent ? Colors.green : Colors.red,
+
+                      /// RIGHT SIDE (Status Badge)
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: isPresent
+                              ? Colors.green.withOpacity(0.1)
+                              : Colors.red.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          isPresent ? "Present" : "Absent",
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: isPresent ? Colors.green : Colors.red,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               );
             },
