@@ -19,6 +19,7 @@ class _StudentDetailsState extends State<StudentDetails> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
+
         leading: IconButton(onPressed: (){
           Get.back();
         }, icon: Icon(Icons.arrow_back_ios,color: AppColors.white,)),
@@ -156,7 +157,7 @@ class _StudentDetailsState extends State<StudentDetails> {
                     ),
                     Divider(),
 
-                    /// 🔹 Present & Absent Cards
+                    // Present & Absent Cards
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

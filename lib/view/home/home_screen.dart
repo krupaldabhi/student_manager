@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:student_manager/utils/app_colors.dart';
 
+import '../student/add_new_student.dart';
 import '../student/student_details.dart';
 
 
@@ -257,7 +258,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: (){},
+          onPressed: (){
+            Get.to(AddNewStudent());
+          },
       backgroundColor: AppColors.primary,
         child: Icon(Icons.add,color: Colors.white,),
       ),
