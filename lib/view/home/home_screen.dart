@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:student_manager/utils/app_colors.dart';
 
+import '../student/add_attendance.dart';
 import '../student/add_new_student.dart';
 import '../student/student_details.dart';
 
@@ -23,7 +24,11 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.primary,
         title: Text("Stundet Manager",style: GoogleFonts.poppins(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
-        
+        actions: [
+          IconButton(onPressed: (){
+            Get.to(AddAttendance());
+          }, icon: Icon(Icons.add),color: AppColors.white,)
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(10),
@@ -153,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
               return InkWell(
                 onTap: (){
-                  Get.to(StudentDetails());
+                  Get.to( StudentDetails());
                 },
                 child: Container(
                   margin: EdgeInsets.only(bottom: 12),
