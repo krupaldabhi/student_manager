@@ -14,7 +14,6 @@ class AddNewStudent extends StatefulWidget {
 class _AddNewStudentState extends State<AddNewStudent> {
   TextEditingController rollNoController = TextEditingController();
   TextEditingController studentNameController = TextEditingController();
-  TextEditingController genderController = TextEditingController();
   TextEditingController dobController = TextEditingController();
   TextEditingController classController = TextEditingController();
   TextEditingController fatherNameController = TextEditingController();
@@ -23,6 +22,7 @@ class _AddNewStudentState extends State<AddNewStudent> {
   TextEditingController alternateContactController = TextEditingController();
   TextEditingController addressContactController = TextEditingController();
   DateTime? selectedDate;
+  String? selectedGender;
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +59,63 @@ class _AddNewStudentState extends State<AddNewStudent> {
               CustomTextField(labelText: 'Student Name: ',
                   hintText: 'Enter Student Name', controller:studentNameController ),
                 //Gender
-              CustomTextField(labelText: 'Gender: ',
-                  hintText: 'Enter Gender', controller:genderController ),
+              // Replace This Old Gender TextField
+
+// CustomTextField(
+//   labelText: 'Gender: ',
+//   hintText: 'Enter Gender',
+//   controller: genderController,
+// ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Gender:",
+                    style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  ),
+
+                  SizedBox(height: 8),
+
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: AppColors.primary),
+                      borderRadius: BorderRadius.circular(05),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        value: selectedGender,
+                        isExpanded: true,
+                        hint: Text(
+                          "Select Gender",
+                          style: TextStyle(color: AppColors.primary),
+                        ),
+                        items: ["Male", "Female", "Other"].map(
+                              (gender) => DropdownMenuItem(
+                            value: gender,
+                            child: Text(
+                              gender,
+                              style: GoogleFonts.poppins(),
+                            ),
+                          ),
+                        )
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedGender = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 10),
+                ],
+              ),
 
               // TODO Date Of Birth
               Text(
@@ -113,7 +168,8 @@ class _AddNewStudentState extends State<AddNewStudent> {
                   hintText: 'Alternate Parent Contact', controller:alternateContactController ),
           //Addrses Contact
               CustomTextField(labelText: 'Address   : ',
-                  hintText: 'Enter Address ', controller:alternateContactController ),
+                  mexLine: 5,
+                  hintText: 'Enter Address ', controller:addressContactController ),
 
               // TODO Button Pressed
               InkWell(
@@ -141,6 +197,7 @@ class _AddNewStudentState extends State<AddNewStudent> {
     required String hintText ,
     required  TextEditingController controller,
     TextInputType keyboardType = TextInputType.text,
+    int mexLine = 1,
   }) {
     return Column(
        crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,6 +211,7 @@ class _AddNewStudentState extends State<AddNewStudent> {
         ),
         SizedBox(height: 8),
         TextField(
+          maxLines: mexLine,
           keyboardType: keyboardType,
           controller: controller,
           decoration: InputDecoration(
@@ -181,6 +239,81 @@ class _AddNewStudentState extends State<AddNewStudent> {
     setState(() {
       selectedDate = pickedDate;
     });
+  }
+
+  // Validation Function
+  void validateAndSubmit() {
+
+    // Empty Field Validation
+    if (rollNoController.text.trim().isEmpty ||
+        studentNameController.text.trim().isEmpty ||
+        selectedGender == null ||
+        classController.text.trim().isEmpty ||
+        fatherNameController.text.trim().isEmpty ||
+        motherNameController.text.trim().isEmpty ||
+        parentContactController.text.trim().isEmpty ||
+        addressContactController.text.trim().isEmpty ||
+        selectedDate == null) {
+
+      Get.snackbar(
+        "Error",
+        "All fields are required",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    // Parent Contact Validation
+    if (parentContactController.text.length != 10) {
+      Get.snackbar(
+        "Error",
+        "Parent Contact must be 10 digits",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    // Alternate Contact Validation
+    if (alternateContactController.text.length != 10) {
+      Get.snackbar(
+        "Error",
+        "Alternate Contact must be 10 digits",
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    // Success Snackbar
+    Get.snackbar(
+      "Success",
+      "Student Registered Successfully",
+      backgroundColor: Colors.green,
+      colorText: Colors.white,
+      snackPosition: SnackPosition.BOTTOM,
+    );
+
+    // Print All Fields
+    print("===== Student Details =====");
+
+    print("Roll No : ${rollNoController.text}");
+    print("Student Name : ${studentNameController.text}");
+    print("Gender : ${selectedGender}");
+    print(
+        "Date Of Birth : ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}");
+    print("Class : ${classController.text}");
+    print("Father Name : ${fatherNameController.text}");
+    print("Mother Name : ${motherNameController.text}");
+    print("Parent Contact : ${parentContactController.text}");
+    print("Alternate Contact : ${alternateContactController.text}");
+    print("Address : ${addressContactController.text}");
+
+    print("===========================");
   }
 
 }

@@ -16,8 +16,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Student Manager',
-      // home:  SplashScreen(),
-      home:  HomeScreen(),
+      home:  SplashScreen(),
+      // home:  HomeScreen(),
     );
   }
 }

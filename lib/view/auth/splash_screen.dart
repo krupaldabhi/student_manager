@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:student_manager/utils/app_colors.dart';
 import 'package:student_manager/view/auth/register_screen.dart';
+
+import '../home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -33,6 +37,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     Timer(const Duration(seconds: 4), () {
       Get.offAll(() => const RegisterScreen());
+      // Get.offAll(() => const HomeScreen());
     });
   }
 
@@ -55,18 +60,27 @@ class _SplashScreenState extends State<SplashScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  "assets/images/student.png",
+                  "assets/images/app_icon.png",
                   height: 200,
                   width: 300,
                 ),
-                const SizedBox(height: 20),
-                const Text(
+                const SizedBox(height: 10),
+                Text(
+                  textAlign: TextAlign.center,
                   "The EasyLearn Academy",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
-                  ),
+                  style: GoogleFonts.poppins(color: AppColors.primary, fontWeight: FontWeight.bold,fontSize: 25),
                 ),
+                const SizedBox(height: 10),
+
+            Text(
+              "Empowering Students Through Quality Education",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                color: Colors.grey.shade600,
+                fontWeight: FontWeight.w400,
+                fontSize: 15,
+                letterSpacing: 0.5,
+              ),),
               ],
             ),
           ),

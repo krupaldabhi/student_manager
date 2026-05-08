@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:student_manager/utils/app_colors.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../student/add_attendance.dart';
 import '../student/add_new_student.dart';
@@ -211,20 +212,25 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               SizedBox(height: 4),
 
-                              Row(
-                                children: [
-                                  Icon(Icons.call,
-                                      color: AppColors.primary, size: 14),
-                                  SizedBox(width: 4),
-                                  Text(
-                                    "7211121353",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      color: AppColors.primary,
-                                      fontWeight: FontWeight.w600,
+                              InkWell(
+                                onTap: (){
+                                  _makePhoneCall("1234567890");
+                                },
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.call,
+                                        color: AppColors.primary, size: 14),
+                                    SizedBox(width: 4),
+                                    Text(
+                                      "7211121353",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        color: AppColors.primary,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -270,5 +276,12 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Icon(Icons.add,color: Colors.white,),
       ),
     );
+  }
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
   }
 }

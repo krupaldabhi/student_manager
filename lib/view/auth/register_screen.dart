@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../home/home_screen.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -190,7 +192,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  /// 🔥 MODERN INPUT FIELD
+  // MODERN INPUT FIELD
   Widget _modernField(
       TextEditingController controller,
       String hint,
@@ -304,7 +306,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM
       );
-      // Get.to(HomeScreen());
+      Get.off(()=> HomeScreen());
     }
   }
 }

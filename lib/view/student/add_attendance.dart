@@ -232,6 +232,23 @@ class _AddAttendanceState extends State<AddAttendance> {
           );
         }),
       ),
+     bottomSheet: Padding(
+       padding: EdgeInsets.all(10),
+       child: Container(
+         width: double.infinity,
+         height: 50,
+         decoration: BoxDecoration(
+           color: AppColors.primary,
+           borderRadius: BorderRadius.circular(10),
+         ),
+         child: Center(
+           child: Padding(
+             padding: const EdgeInsets.all(8.0),
+             child: Text("Save Attendacnce",style: GoogleFonts.poppins(fontSize: 14,fontWeight: FontWeight.bold,color: AppColors.white),),
+           ),
+         ),
+       ),
+     ),
     );
   }
   Future<void> _makePhoneCall(String phoneNumber) async {

@@ -243,8 +243,6 @@ class _StudentDetailsState extends State<StudentDetails> {
         ),
       ),
     );
-
-
   }
 Widget customText(String title, String value) {
     return Padding(
