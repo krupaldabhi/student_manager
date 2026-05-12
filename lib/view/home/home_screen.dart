@@ -38,7 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height:10 ,),
-              Text("Welcome, Admin!",style: GoogleFonts.poppins(color: AppColors.primary, fontSize: 18, fontWeight: FontWeight.bold),),
+              Row(
+                children: [
+                  Text("Welcome, Admin!",style: GoogleFonts.poppins(color: AppColors.primary, fontSize: 18, fontWeight: FontWeight.bold),),
+                  IconButton(onPressed: (){}, icon: Icon(Icons.edit,color: AppColors.primary,))
+                ],
+              ),
               Text("Manage Your Student",style: GoogleFonts.poppins(color: AppColors.primary,fontSize: 14),),
               SizedBox(height:10 ,),
 

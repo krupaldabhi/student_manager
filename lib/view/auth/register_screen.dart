@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../database/database_helper.dart';
 import '../home/home_screen.dart';
 
 
@@ -247,7 +248,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   /// ✅ FORM VALIDATION
-  void _validateForm() {
+  Future<void> _validateForm() async {
     final name = nameController.text.trim();
     final contact = contactController.text.trim();
     final email = emailController.text.trim();
@@ -306,6 +307,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM
       );
+
+
+      int result = await DatabaseHelper().insertAdmin(
+          name: nameController.text.toString(),
+          contact: contactController.text.toString(),
+          email: emailController.text.toString(),
+          password: passwordController.text.toString()
+
+
+      );
+
+      print("Admin Inserted : $result");
+
       Get.off(()=> HomeScreen());
     }
   }

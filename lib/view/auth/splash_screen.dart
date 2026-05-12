@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:student_manager/utils/app_colors.dart';
 import 'package:student_manager/view/auth/register_screen.dart';
 
+import '../../database/database_helper.dart';
 import '../home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen>
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _controller.forward();
-
+    checkAdminData();
     Timer(const Duration(seconds: 4), () {
       Get.offAll(() => const RegisterScreen());
       // Get.offAll(() => const HomeScreen());
@@ -46,6 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.dispose();
     super.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,5 +89,26 @@ class _SplashScreenState extends State<SplashScreen>
         ),
       ),
     );
+  }
+
+
+
+  void checkAdminData() async {
+
+    bool isEmpty =
+    await DatabaseHelper().isAdminTableEmpty();
+
+    await Future.delayed(Duration(seconds: 2));
+
+    if (isEmpty) {
+
+      print("Admin Table Is Empty ");
+    } else {
+      print("Admin Table is Not Empty ");
+
+
+
+    }
+
   }
 }

@@ -52,21 +52,27 @@ class _AddNewStudentState extends State<AddNewStudent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // For Student Rollno
-              CustomTextField(labelText: 'Student RollNo: ',
-                  keyboardType: TextInputType.number,
-                  hintText: 'Enter Student RollN', controller:rollNoController ),
+              CustomTextField(
+                labelText: 'Student RollNo: ',
+                keyboardType: TextInputType.number,
+                hintText: 'Enter Student RollN',
+                controller: rollNoController,
+              ),
               // Student Name
-              CustomTextField(labelText: 'Student Name: ',
-                  hintText: 'Enter Student Name', controller:studentNameController ),
-                //Gender
+              CustomTextField(
+                labelText: 'Student Name: ',
+                hintText: 'Enter Student Name',
+                controller: studentNameController,
+              ),
+
+              //Gender
               // Replace This Old Gender TextField
 
-// CustomTextField(
-//   labelText: 'Gender: ',
-//   hintText: 'Enter Gender',
-//   controller: genderController,
-// ),
-
+              // CustomTextField(
+              //   labelText: 'Gender: ',
+              //   hintText: 'Enter Gender',
+              //   controller: genderController,
+              // ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,15 +100,16 @@ class _AddNewStudentState extends State<AddNewStudent> {
                           "Select Gender",
                           style: TextStyle(color: AppColors.primary),
                         ),
-                        items: ["Male", "Female", "Other"].map(
+                        items: ["Male", "Female", "Other"]
+                            .map(
                               (gender) => DropdownMenuItem(
-                            value: gender,
-                            child: Text(
-                              gender,
-                              style: GoogleFonts.poppins(),
-                            ),
-                          ),
-                        )
+                                value: gender,
+                                child: Text(
+                                  gender,
+                                  style: GoogleFonts.poppins(),
+                                ),
+                              ),
+                            )
                             .toList(),
                         onChanged: (value) {
                           setState(() {
@@ -129,7 +136,7 @@ class _AddNewStudentState extends State<AddNewStudent> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: AppColors.primary)
+                  border: Border.all(color: AppColors.primary),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -144,36 +151,52 @@ class _AddNewStudentState extends State<AddNewStudent> {
                   ),
                 ),
               ),
+              SizedBox(height: 10),
 
-
-
-            // TODO  Class
-              CustomTextField(labelText: 'Class : ',
-                  keyboardType: TextInputType.number,
-                  hintText: 'Enter Class', controller:dobController ),
-           //Father Name
-              CustomTextField(labelText: 'Father Name : ',
-                  hintText: 'Enter Father Name', controller:fatherNameController ),
-          //Mother  Name
-              CustomTextField(labelText: 'Mother Name : ',
-                  hintText: 'Enter Mother Name', controller:motherNameController ),
-          //Parant Contact
-              CustomTextField(labelText: 'Parent Contact  : ',
-                  hintText: 'Enter Parent Contact',
-                  keyboardType: TextInputType.number,
-                  controller:parentContactController ),
-          //Alternate Contact
-              CustomTextField(labelText: 'Alternate Contact  : ',
-                  keyboardType: TextInputType.number,
-                  hintText: 'Alternate Parent Contact', controller:alternateContactController ),
-          //Addrses Contact
-              CustomTextField(labelText: 'Address   : ',
-                  mexLine: 5,
-                  hintText: 'Enter Address ', controller:addressContactController ),
+              // TODO  Class
+              CustomTextField(
+                labelText: 'Class : ',
+                keyboardType: TextInputType.number,
+                hintText: 'Enter Class',
+                controller: classController,
+              ),
+              //Father Name
+              CustomTextField(
+                labelText: 'Father Name : ',
+                hintText: 'Enter Father Name',
+                controller: fatherNameController,
+              ),
+              //Mother  Name
+              CustomTextField(
+                labelText: 'Mother Name : ',
+                hintText: 'Enter Mother Name',
+                controller: motherNameController,
+              ),
+              //Parant Contact
+              CustomTextField(
+                labelText: 'Parent Contact  : ',
+                hintText: 'Enter Parent Contact',
+                keyboardType: TextInputType.number,
+                controller: parentContactController,
+              ),
+              //Alternate Contact
+              CustomTextField(
+                labelText: 'Alternate Contact  : ',
+                keyboardType: TextInputType.number,
+                hintText: 'Alternate Parent Contact',
+                controller: alternateContactController,
+              ),
+              //Addrses Contact
+              CustomTextField(
+                labelText: 'Address   : ',
+                mexLine: 5,
+                hintText: 'Enter Address ',
+                controller: addressContactController,
+              ),
 
               // TODO Button Pressed
               InkWell(
-                onTap: (){
+                onTap: () {
                   print("Button Pressed");
                 },
                 child: Container(
@@ -182,7 +205,19 @@ class _AddNewStudentState extends State<AddNewStudent> {
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: Center(child: Padding(padding: EdgeInsetsGeometry.all(10),child: Text("Register Student",style: GoogleFonts.poppins(fontWeight: FontWeight.bold,color: Colors.white,fontSize: 15),),)),
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsetsGeometry.all(10),
+                      child: Text(
+                        "Register Student",
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -193,14 +228,14 @@ class _AddNewStudentState extends State<AddNewStudent> {
   }
 
   Widget CustomTextField({
-    required String labelText ,
-    required String hintText ,
-    required  TextEditingController controller,
+    required String labelText,
+    required String hintText,
+    required TextEditingController controller,
     TextInputType keyboardType = TextInputType.text,
     int mexLine = 1,
   }) {
     return Column(
-       crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           labelText,
@@ -231,11 +266,10 @@ class _AddNewStudentState extends State<AddNewStudent> {
   Future<void> _selectDate() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime(2006, 1, 1),
+      initialDate: DateTime(2006, 1, 5),
       firstDate: DateTime(1990),
-      lastDate: DateTime(2050),
+      lastDate: DateTime(2070),
     );
-
     setState(() {
       selectedDate = pickedDate;
     });
@@ -243,7 +277,6 @@ class _AddNewStudentState extends State<AddNewStudent> {
 
   // Validation Function
   void validateAndSubmit() {
-
     // Empty Field Validation
     if (rollNoController.text.trim().isEmpty ||
         studentNameController.text.trim().isEmpty ||
@@ -254,7 +287,6 @@ class _AddNewStudentState extends State<AddNewStudent> {
         parentContactController.text.trim().isEmpty ||
         addressContactController.text.trim().isEmpty ||
         selectedDate == null) {
-
       Get.snackbar(
         "Error",
         "All fields are required",
@@ -305,7 +337,8 @@ class _AddNewStudentState extends State<AddNewStudent> {
     print("Student Name : ${studentNameController.text}");
     print("Gender : ${selectedGender}");
     print(
-        "Date Of Birth : ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}");
+      "Date Of Birth : ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+    );
     print("Class : ${classController.text}");
     print("Father Name : ${fatherNameController.text}");
     print("Mother Name : ${motherNameController.text}");
@@ -315,5 +348,4 @@ class _AddNewStudentState extends State<AddNewStudent> {
 
     print("===========================");
   }
-
 }
