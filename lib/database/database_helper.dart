@@ -2,7 +2,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
 
@@ -33,11 +32,15 @@ class DatabaseHelper {
   String studentId = "student_id";
  String studentRollNo = "student_roll_no";
  String studentName = "student_name";
- String studentEmail = "student_email";
+  String studentGender = "student_gender";
+  String studentDob = "student_dob";
+  String studentClass = "student_class";
+ String studentFatherName = "student_father";
+ String studentMotherName = "student_mother";
  String studentContact = "student_contact";
- String studentGender = "student_gender";
- String studentCourse = "student_course";
- String studentImage = "student_image";
+ String studentContact2 = "student_contact_2";
+ String studentAddress = "student_address";
+
 
   // ===========================
   // ATTENDANCE TABLE COLUMNS
@@ -86,16 +89,32 @@ class DatabaseHelper {
       )
 
     ''');
+
+      // TODO For Student Table
+      await db.execute('''
+      
+        CREATE TABLE $studentTable(
+  
+          $studentId INTEGER PRIMARY KEY AUTOINCREMENT,
+         $studentRollNo TEXT,
+         $studentName TEXT,
+         $studentGender TEXT,
+         $studentDob TEXT,
+         $studentClass TEXT,
+         $studentFatherName TEXT,
+         $studentMotherName TEXT,
+         $studentContact TEXT,
+         $studentContact2 TEXT,
+         $studentAddress TEXT
+        
+        )
+        
+      ''');
   }
 
 
   // TODO Insert Admin
-  Future<int> insertAdmin({
-    required String name,
-    required String contact,
-    required String email,
-    required String password,
-  }) async {
+  Future<int> insertAdmin({required String name, required String contact, required String email, required String password,}) async {
 
     final Database db = await database;
 
@@ -127,6 +146,44 @@ class DatabaseHelper {
     return result.isEmpty;
   }
 
+
+  // TODO Insert Student
+  Future<int> insertStudent({
+    required String rollNo ,
+    required String name ,
+    required String gender ,
+    required String dob ,
+    required String className ,
+    required String fatherName ,
+    required String motherName ,
+    required String parentContact ,
+    required String alternetContact ,
+    required String address ,
+}) async {
+
+    final Database db = await database;
+
+    Map<String, dynamic> studentData = {
+    studentRollNo : rollNo ,
+    studentName : name ,
+    studentGender : gender ,
+    studentDob : dob ,
+    studentClass : className ,
+    studentFatherName : fatherName ,
+    studentMotherName : motherName ,
+    studentContact : parentContact ,
+    studentContact2 : alternetContact ,
+    studentAddress : address ,
+
+    };
+
+    int result = await db.insert(
+      studentTable,
+      studentData,
+    );
+    print("Inserted Student ID: $studentId");
+    return result;
+  }
 
 
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../database/database_helper.dart';
 import '../../utils/app_colors.dart';
 
 class AddNewStudent extends StatefulWidget {
@@ -276,7 +277,7 @@ class _AddNewStudentState extends State<AddNewStudent> {
   }
 
   // Validation Function
-  void validateAndSubmit() {
+  Future<void> validateAndSubmit() async {
     // Empty Field Validation
     if (rollNoController.text.trim().isEmpty ||
         studentNameController.text.trim().isEmpty ||
@@ -340,12 +341,25 @@ class _AddNewStudentState extends State<AddNewStudent> {
       "Date Of Birth : ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
     );
     print("Class : ${classController.text}");
-    print("Father Name : ${fatherNameController.text}");
+    print("Father Name : ${classController.text}");
     print("Mother Name : ${motherNameController.text}");
     print("Parent Contact : ${parentContactController.text}");
     print("Alternate Contact : ${alternateContactController.text}");
     print("Address : ${addressContactController.text}");
 
     print("===========================");
+
+    int result = await DatabaseHelper().insertStudent(
+        rollNo: rollNoController.text.toString(),
+        name: studentNameController.text.toString(),
+        gender: selectedGender.toString(),
+        dob: "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+        className: classController.text.toString(),
+        fatherName: classController.text.toString(),
+        motherName: motherNameController.text.toString(),
+        parentContact: parentContactController.text.toString(),
+        alternetContact: alternateContactController.text.toString(),
+        address: addressContactController.text.toString()
+    );
   }
 }

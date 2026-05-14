@@ -36,10 +36,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
     checkAdminData();
-    Timer(const Duration(seconds: 4), () {
-      Get.offAll(() => const RegisterScreen());
-      // Get.offAll(() => const HomeScreen());
-    });
+
   }
 
   @override
@@ -98,17 +95,20 @@ class _SplashScreenState extends State<SplashScreen>
     bool isEmpty =
     await DatabaseHelper().isAdminTableEmpty();
 
-    await Future.delayed(Duration(seconds: 2));
 
-    if (isEmpty) {
+
+    Timer(const Duration(seconds: 4), () {
+ if (isEmpty) {
 
       print("Admin Table Is Empty ");
+      Get.offAll(() => const RegisterScreen());
     } else {
       print("Admin Table is Not Empty ");
-
-
+      Get.offAll(() => const HomeScreen());
 
     }
+
+    });
 
   }
 }
