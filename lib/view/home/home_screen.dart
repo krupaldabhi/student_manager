@@ -5,10 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:student_manager/utils/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../database/database_helper.dart';
 import '../student/add_attendance.dart';
 import '../student/add_new_student.dart';
 import '../student/student_details.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,17 +18,48 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Map<String, dynamic>> studentList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    print("Init Methord is Called ");
+    // DatabaseHelper().getAllStudents();
+    fetchStudents();
+  }
+
+  Future<void> fetchStudents() async {
+    studentList = await DatabaseHelper().getAllStudents();
+
+    print("All Student List ${studentList.toString()}");
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.primary,
-        title: Text("Stundet Manager",style: GoogleFonts.poppins(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 18),),
+        title: Text(
+          "Stundet Manager",
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
         actions: [
-          IconButton(onPressed: (){
-            Get.to(AddAttendance());
-          }, icon: Icon(Icons.add),color: AppColors.white,)
+          IconButton(
+            onPressed: () {
+              Get.to(AddAttendance());
+            },
+            icon: Icon(Icons.add),
+            color: AppColors.white,
+          ),
         ],
       ),
       body: Padding(
@@ -37,15 +68,31 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height:10 ,),
+              SizedBox(height: 10),
               Row(
                 children: [
-                  Text("Welcome, Admin!",style: GoogleFonts.poppins(color: AppColors.primary, fontSize: 18, fontWeight: FontWeight.bold),),
-                  IconButton(onPressed: (){}, icon: Icon(Icons.edit,color: AppColors.primary,))
+                  Text(
+                    "Welcome, Admin!",
+                    style: GoogleFonts.poppins(
+                      color: AppColors.primary,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.edit, color: AppColors.primary),
+                  ),
                 ],
               ),
-              Text("Manage Your Student",style: GoogleFonts.poppins(color: AppColors.primary,fontSize: 14),),
-              SizedBox(height:10 ,),
+              Text(
+                "Manage Your Student",
+                style: GoogleFonts.poppins(
+                  color: AppColors.primary,
+                  fontSize: 14,
+                ),
+              ),
+              SizedBox(height: 10),
 
               // TODO For Show All Stundet Data
               Container(
@@ -73,14 +120,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             Text(
                               "Total Student",
                               style: GoogleFonts.poppins(
-                                  color: AppColors.white, fontSize: 14),
+                                color: AppColors.white,
+                                fontSize: 14,
+                              ),
                             ),
                             Text(
                               "50",
                               style: GoogleFonts.poppins(
-                                  color: AppColors.white,
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold),
+                                color: AppColors.white,
+                                fontSize: 32,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
@@ -104,7 +154,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 Text(
                                   "Today Present",
-                                  style: GoogleFonts.poppins(color: Colors.black),
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 SizedBox(height: 5),
                                 Text(
@@ -134,7 +186,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 Text(
                                   "Today Absent",
-                                  style: GoogleFonts.poppins(color: Colors.black),
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 SizedBox(height: 5),
                                 Text(
@@ -154,139 +208,121 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-          SizedBox(height: 10,),
-          ListView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: 5,
-            itemBuilder: (context, index) {
-              bool isPresent = index % 2 == 0;
-
-              return InkWell(
-                onTap: (){
-                  Get.to( StudentDetails());
-                },
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 12),
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: AppColors.cardColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.08),
-                        blurRadius: 8,
-                        spreadRadius: 1,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-
-                      // LEFT SIDE (Student Info)
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 22,
-                            backgroundColor: AppColors.primary,
-                            child: Icon(Icons.person, color: Colors.white),
+              SizedBox(height: 10),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: studentList.length,
+                itemBuilder: (context, index) {
+                  var item = studentList[index];
+                  return InkWell(
+                    onTap: () {
+                      Get.to(StudentDetails());
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 12),
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: AppColors.cardColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 8,
+                            spreadRadius: 1,
+                            offset: Offset(0, 3),
                           ),
-                          SizedBox(width: 12),
-
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // LEFT SIDE (Student Info)
+                          Row(
                             children: [
-                              Text(
-                                "Demo Student",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.secondary,
-                                ),
+                              CircleAvatar(
+                                radius: 22,
+                                backgroundColor: AppColors.primary,
+                                child: Icon(Icons.person, color: Colors.white),
                               ),
-                              SizedBox(height: 2),
+                              SizedBox(width: 12),
 
-                              Text(
-                                "Roll No : 12",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  color: AppColors.grey,
-                                ),
-                              ),
-                              SizedBox(height: 4),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item['${DatabaseHelper().studentName}'],
 
-                              InkWell(
-                                onTap: (){
-                                  _makePhoneCall("1234567890");
-                                },
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.call,
-                                        color: AppColors.primary, size: 14),
-                                    SizedBox(width: 4),
-                                    Text(
-                                      "7211121353",
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 12,
-                                        color: AppColors.primary,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.secondary,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  SizedBox(height: 2),
+
+                                  Text(
+                                    "Roll No : ${item[DatabaseHelper().studentRollNo]}",
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 12,
+                                      color: AppColors.grey,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+
+                                  InkWell(
+                                    onTap: () {
+                                      _makePhoneCall(
+                                        item[DatabaseHelper().studentContact],
+                                      );
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.call,
+                                          color: AppColors.primary,
+                                          size: 14,
+                                        ),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          item[DatabaseHelper().studentContact],
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 12,
+                                            color: AppColors.primary,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ],
                       ),
+                    ),
+                  );
+                },
+              ),
 
-                      /// RIGHT SIDE (Status Badge)
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: isPresent
-                              ? Colors.green.withOpacity(0.1)
-                              : Colors.red.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          isPresent ? "Present" : "Absent",
-                          style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                            color: isPresent ? Colors.green : Colors.red,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
               // TODO List Of Student
-
-
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: (){
-            Get.to(AddNewStudent());
-          },
-      backgroundColor: AppColors.primary,
-        child: Icon(Icons.add,color: Colors.white,),
+        onPressed: () {
+          Get.to(AddNewStudent());
+        },
+        backgroundColor: AppColors.primary,
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }
+
   Future<void> _makePhoneCall(String phoneNumber) async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: phoneNumber,
-    );
+    final Uri launchUri = Uri(scheme: 'tel', path: phoneNumber);
     await launchUrl(launchUri);
   }
 }

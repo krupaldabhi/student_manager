@@ -199,6 +199,7 @@ class _AddNewStudentState extends State<AddNewStudent> {
               InkWell(
                 onTap: () {
                   print("Button Pressed");
+                  validateAndSubmit();
                 },
                 child: Container(
                   width: double.infinity,
@@ -275,9 +276,8 @@ class _AddNewStudentState extends State<AddNewStudent> {
       selectedDate = pickedDate;
     });
   }
-
-  // Validation Function
   Future<void> validateAndSubmit() async {
+
     // Empty Field Validation
     if (rollNoController.text.trim().isEmpty ||
         studentNameController.text.trim().isEmpty ||
@@ -288,6 +288,7 @@ class _AddNewStudentState extends State<AddNewStudent> {
         parentContactController.text.trim().isEmpty ||
         addressContactController.text.trim().isEmpty ||
         selectedDate == null) {
+
       Get.snackbar(
         "Error",
         "All fields are required",
@@ -311,7 +312,9 @@ class _AddNewStudentState extends State<AddNewStudent> {
     }
 
     // Alternate Contact Validation
-    if (alternateContactController.text.length != 10) {
+    if (alternateContactController.text.isNotEmpty &&
+        alternateContactController.text.length != 10) {
+
       Get.snackbar(
         "Error",
         "Alternate Contact must be 10 digits",
@@ -322,6 +325,22 @@ class _AddNewStudentState extends State<AddNewStudent> {
       return;
     }
 
+    int result = await DatabaseHelper().insertStudent(
+      rollNo: rollNoController.text.toString(),
+      name: studentNameController.text.toString(),
+      gender: selectedGender.toString(),
+      dob:
+      "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+      className: classController.text.toString(),
+      fatherName: fatherNameController.text.toString(),
+      motherName: motherNameController.text.toString(),
+      parentContact: parentContactController.text.toString(),
+      alternetContact: alternateContactController.text.toString(),
+      address: addressContactController.text.toString(),
+    );
+
+    print("Result is $result");
+
     // Success Snackbar
     Get.snackbar(
       "Success",
@@ -329,37 +348,100 @@ class _AddNewStudentState extends State<AddNewStudent> {
       backgroundColor: Colors.green,
       colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,
+      duration: Duration(seconds: 2),
     );
 
-    // Print All Fields
-    print("===== Student Details =====");
-
-    print("Roll No : ${rollNoController.text}");
-    print("Student Name : ${studentNameController.text}");
-    print("Gender : ${selectedGender}");
-    print(
-      "Date Of Birth : ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
-    );
-    print("Class : ${classController.text}");
-    print("Father Name : ${classController.text}");
-    print("Mother Name : ${motherNameController.text}");
-    print("Parent Contact : ${parentContactController.text}");
-    print("Alternate Contact : ${alternateContactController.text}");
-    print("Address : ${addressContactController.text}");
-
-    print("===========================");
-
-    int result = await DatabaseHelper().insertStudent(
-        rollNo: rollNoController.text.toString(),
-        name: studentNameController.text.toString(),
-        gender: selectedGender.toString(),
-        dob: "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
-        className: classController.text.toString(),
-        fatherName: classController.text.toString(),
-        motherName: motherNameController.text.toString(),
-        parentContact: parentContactController.text.toString(),
-        alternetContact: alternateContactController.text.toString(),
-        address: addressContactController.text.toString()
-    );
+    if (Navigator.canPop(context)) {
+      Navigator.pop(context);
+    }
   }
+  // // Validation Function
+  // Future<void> validateAndSubmit() async {
+  //   // Empty Field Validation
+  //   if (rollNoController.text.trim().isEmpty ||
+  //       studentNameController.text.trim().isEmpty ||
+  //       selectedGender == null ||
+  //       classController.text.trim().isEmpty ||
+  //       fatherNameController.text.trim().isEmpty ||
+  //       motherNameController.text.trim().isEmpty ||
+  //       parentContactController.text.trim().isEmpty ||
+  //       addressContactController.text.trim().isEmpty ||
+  //       selectedDate == null) {
+  //     Get.snackbar(
+  //       "Error",
+  //       "All fields are required",
+  //       backgroundColor: Colors.red,
+  //       colorText: Colors.white,
+  //       snackPosition: SnackPosition.BOTTOM,
+  //     );
+  //     return;
+  //   }
+  //
+  //   // Parent Contact Validation
+  //   if (parentContactController.text.length != 10) {
+  //     Get.snackbar(
+  //       "Error",
+  //       "Parent Contact must be 10 digits",
+  //       backgroundColor: Colors.red,
+  //       colorText: Colors.white,
+  //       snackPosition: SnackPosition.BOTTOM,
+  //     );
+  //     return;
+  //   }
+  //
+  //   // Alternate Contact Validation
+  //   if (alternateContactController.text.length != 10) {
+  //     Get.snackbar(
+  //       "Error",
+  //       "Alternate Contact must be 10 digits",
+  //       backgroundColor: Colors.red,
+  //       colorText: Colors.white,
+  //       snackPosition: SnackPosition.BOTTOM,
+  //     );
+  //     return;
+  //   }
+  //
+  //   // Success Snackbar
+  //   Get.snackbar(
+  //     "Success",
+  //     "Student Registered Successfully",
+  //     backgroundColor: Colors.green,
+  //     colorText: Colors.white,
+  //     snackPosition: SnackPosition.BOTTOM,
+  //   );
+  //
+  //   // Print All Fields
+  //   print("===== Student Details =====");
+  //
+  //   print("Roll No : ${rollNoController.text}");
+  //   print("Student Name : ${studentNameController.text}");
+  //   print("Gender : ${selectedGender}");
+  //   print(
+  //     "Date Of Birth : ${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+  //   );
+  //   print("Class : ${classController.text}");
+  //   print("Father Name : ${classController.text}");
+  //   print("Mother Name : ${motherNameController.text}");
+  //   print("Parent Contact : ${parentContactController.text}");
+  //   print("Alternate Contact : ${alternateContactController.text}");
+  //   print("Address : ${addressContactController.text}");
+  //
+  //   print("===========================");
+  //
+  //   int result = await DatabaseHelper().insertStudent(
+  //       rollNo: rollNoController.text.toString(),
+  //       name: studentNameController.text.toString(),
+  //       gender: selectedGender.toString(),
+  //       dob: "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+  //       className: classController.text.toString(),
+  //       fatherName: fatherNameController.text.toString(),
+  //       motherName: motherNameController.text.toString(),
+  //       parentContact: parentContactController.text.toString(),
+  //       alternetContact: alternateContactController.text.toString(),
+  //       address: addressContactController.text.toString()
+  //   );
+  //   Navigator.pop(context);
+  //   print("Result is $result");
+  //
+  // }
 }
